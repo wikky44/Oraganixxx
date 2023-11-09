@@ -1,0 +1,23 @@
+import 'bloc/signup_three_bloc.dart';import 'models/signup_three_model.dart';import 'package:flutter/material.dart';import 'package:organixxx/core/app_export.dart';import 'package:organixxx/core/utils/validation_functions.dart';import 'package:organixxx/widgets/custom_drop_down.dart';import 'package:organixxx/widgets/custom_elevated_button.dart';import 'package:organixxx/widgets/custom_text_form_field.dart';
+// ignore_for_file: must_be_immutable
+class SignupThreeScreen extends StatelessWidget {SignupThreeScreen({Key? key}) : super(key: key);
+
+GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+static Widget builder(BuildContext context) { return BlocProvider<SignupThreeBloc>(create: (context) => SignupThreeBloc(SignupThreeState(signupThreeModelObj: SignupThreeModel()))..add(SignupThreeInitialEvent()), child: SignupThreeScreen()); } 
+@override Widget build(BuildContext context) { mediaQueryData = MediaQuery.of(context); return SafeArea(child: Scaffold(resizeToAvoidBottomInset: false, body: Form(key: _formKey, child: Container(width: double.maxFinite, padding: EdgeInsets.symmetric(horizontal: 19.h, vertical: 20.v), child: Column(children: [_buildAddress1(context), SizedBox(height: 16.v), _buildAddress2(context), SizedBox(height: 16.v), BlocSelector<SignupThreeBloc, SignupThreeState, SignupThreeModel?>(selector: (state) => state.signupThreeModelObj, builder: (context, signupThreeModelObj) {return CustomDropDown(icon: Container(margin: EdgeInsets.fromLTRB(30.h, 13.v, 6.h, 13.v), child: CustomImageView(imagePath: ImageConstant.imgArrowdropdown, height: 24.adaptSize, width: 24.adaptSize)), hintText: "lbl_city".tr, items: signupThreeModelObj?.dropdownItemList ?? [], onChanged: (value) {context.read<SignupThreeBloc>().add(ChangeDropDownEvent(value: value));});}), SizedBox(height: 16.v), _buildPincode1(context), SizedBox(height: 74.v), _buildNext(context), SizedBox(height: 5.v)]))))); } 
+/// Section Widget
+Widget _buildAddress(BuildContext context) { return BlocSelector<SignupThreeBloc, SignupThreeState, TextEditingController?>(selector: (state) => state.addressController, builder: (context, addressController) {return CustomTextFormField(width: 335.h, controller: addressController, hintText: "lbl_address_line_1".tr, alignment: Alignment.bottomCenter);}); } 
+/// Section Widget
+Widget _buildAddress1(BuildContext context) { return SizedBox(height: 352.v, width: 335.h, child: Stack(alignment: Alignment.bottomCenter, children: [CustomImageView(imagePath: ImageConstant.imgLogo1, height: 202.v, width: 158.h, alignment: Alignment.topCenter), CustomImageView(imagePath: ImageConstant.imgPureOrganic1, height: 212.v, width: 266.h, alignment: Alignment.bottomCenter, margin: EdgeInsets.only(bottom: 44.v)), _buildAddress(context)])); } 
+/// Section Widget
+Widget _buildAddress2(BuildContext context) { return BlocSelector<SignupThreeBloc, SignupThreeState, TextEditingController?>(selector: (state) => state.addressController1, builder: (context, addressController1) {return CustomTextFormField(controller: addressController1, hintText: "lbl_address_line_2".tr);}); } 
+/// Section Widget
+Widget _buildPincode(BuildContext context) { return BlocSelector<SignupThreeBloc, SignupThreeState, TextEditingController?>(selector: (state) => state.pincodeController, builder: (context, pincodeController) {return CustomTextFormField(width: 160.h, controller: pincodeController, hintText: "lbl_pincode".tr, textInputAction: TextInputAction.done, textInputType: TextInputType.number, validator: (value) {if (!isNumeric(value)) {return "err_msg_please_enter_valid_number".tr;} return null;});}); } 
+/// Section Widget
+Widget _buildPincode1(BuildContext context) { return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [BlocSelector<SignupThreeBloc, SignupThreeState, SignupThreeModel?>(selector: (state) => state.signupThreeModelObj, builder: (context, signupThreeModelObj) {return CustomDropDown(width: 159.h, icon: Container(margin: EdgeInsets.fromLTRB(30.h, 13.v, 6.h, 13.v), child: CustomImageView(imagePath: ImageConstant.imgArrowdropdown, height: 24.adaptSize, width: 24.adaptSize)), hintText: "lbl_state".tr, items: signupThreeModelObj?.dropdownItemList1 ?? [], onChanged: (value) {context.read<SignupThreeBloc>().add(ChangeDropDown1Event(value: value));});}), _buildPincode(context)]); } 
+/// Section Widget
+Widget _buildNext(BuildContext context) { return CustomElevatedButton(height: 50.v, text: "lbl_next".tr, onPressed: () {onTapNext(context);}); } 
+/// Navigates to the signupOtpScreen when the action is triggered.
+onTapNext(BuildContext context) { NavigatorService.pushNamed(AppRoutes.signupOtpScreen, ); } 
+ }
